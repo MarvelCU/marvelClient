@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Marvel Cinematic Universe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+    body {
+        background-image: url("https://mspoweruser.com/wp-content/uploads/2018/04/mcu-1024x614.jpg");
+    }
+    #logo {
+        opacity: 0.85;
+    }
+</style>
+
+<body>
+    <div id="container">
+        <div id="logo" align="center">
+            <img src="http://assets2.ignimgs.com/2013/11/13/marvel-logo-1280jpg-8851ea_1280w.jpg" style="height: 15%; width: 15%;">
+            <h1 class="text-hide" style="background-image: url('https://mspoweruser.com/wp-content/uploads/2018/04/mcu-1024x614.jpg');"></h1>
+        </div>
+    </div>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1062811000540139',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v3.1'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        function checkLoginState() {
+            FB.getLoginStatus(function (response) {
+                console.log(response)
+
+                if (response.status == 'connected') {
+                    //access /signin/facebook and send authResponse
+                    axios.post('http://localhost:3000/git/signin/facebook', response.authResponse)
+                        .then(result => {
+                            // console.log(result)
+                            localStorage.setItem('token', result.data)
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                }
+
+
+            });
+        }
+    </script>
+    <div align="center">
+        <fb:login-button size="xlarge" scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
+    </div>
+</body>
+
+</html>
