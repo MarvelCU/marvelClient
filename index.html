@@ -13,7 +13,9 @@
 <style>
     body {
         background-image: url("https://mspoweruser.com/wp-content/uploads/2018/04/mcu-1024x614.jpg");
+        background-size: cover
     }
+
     #logo {
         opacity: 0.85;
     }
@@ -23,13 +25,18 @@
     <div id="container">
         <div id="logo" align="center">
             <img src="http://assets2.ignimgs.com/2013/11/13/marvel-logo-1280jpg-8851ea_1280w.jpg" style="height: 15%; width: 15%;">
+        </div>
             <h1 class="text-hide" style="background-image: url('https://mspoweruser.com/wp-content/uploads/2018/04/mcu-1024x614.jpg');"></h1>
+            <div align="center">
+                <fb:login-button size="xlarge" scope="public_profile,email" onlogin="checkLoginState();">
+                </fb:login-button>
+           
         </div>
     </div>
     <script>
         window.fbAsyncInit = function () {
             FB.init({
-                appId: '1062811000540139',
+                appId: '212838219575213',
                 autoLogAppEvents: true,
                 xfbml: true,
                 version: 'v3.1'
@@ -46,13 +53,11 @@
 
         function checkLoginState() {
             FB.getLoginStatus(function (response) {
-                console.log(response)
 
                 if (response.status == 'connected') {
                     //access /signin/facebook and send authResponse
-                    axios.post('http://localhost:3000/git/signin/facebook', response.authResponse)
+                    axios.post('http://localhost:3000/signin/facebook', {fb: response.authResponse})
                         .then(result => {
-                            // console.log(result)
                             localStorage.setItem('token', result.data)
                         })
                         .catch(err => {
@@ -64,10 +69,7 @@
             });
         }
     </script>
-    <div align="center">
-        <fb:login-button size="xlarge" scope="public_profile,email" onlogin="checkLoginState();">
-        </fb:login-button>
-    </div>
+
 </body>
 
 </html>
