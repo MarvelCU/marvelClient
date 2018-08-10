@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Dashboard</title>
+        <title>Comics</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
             crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
@@ -121,8 +121,7 @@
                                 <div class="card">
                                     <div class="card-body" style="margin:10px;padding:10px;">
                                         <img src=${listComics[i].thumbnail.path + '.' + listComics[i].thumbnail.extension} style="height: 250px; width: 250px">
-                                        <h1 class="card-title" style="color:black; font-size:30px;">${listComics[i].name}</h1>
-                                        <a href="/detail.html?${listComics[i].id}" class="btn btn-dark">More details</a>
+                                        <h1 class="card-title" style="color:black; font-size:30px;">${listComics[i].title}</h1>
                                     </div>
                                 </div>
                             </div>

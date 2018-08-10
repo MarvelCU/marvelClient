@@ -79,7 +79,7 @@
     }
 
     function getMovie(title){
-        console.log("woiiii", title)
+        console.log(title)
         var titleUri = encodeURIComponent(title);
         var url = `https://api.themoviedb.org/3/search/movie?query=${titleUri}&api_key=292af0970d9da62ffa9b280cc9fa8e88`
         console.log("from movie", titleUri)
