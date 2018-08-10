@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body onload="getUrl()">
+    <div id="hero"></div>
+<script>
+    // https://gateway.marvel.com:443/v1/public/characters/1011334?apikey=20056a3699878d1b405c3dbe16a121ce
+    let uri = window.location.href.split("?");
+    let idHero = uri[1]
+    let url = `http://gateway.marvel.com/v1/public/characters/${idHero}?apikey=1e229818860f7081c532e634d8f6ae65&ts=1504796200286&hash=e02be810b65957f4b60b71ca89b8835f`
+    var hero = ''
+
+    
+    function getUrl () {
+        console.log(uri)
+        console.log(url)
+        heroInfo()
+    }
+
+    function heroInfo () {
+        console.log("acces url", url)
+        axios.get(url)
+        .then(response => {
+            console.log(response.data.data.results)
+            let heroInfo = response.data.data.results[0]
+            $('#hero').append(`
+                                <h1>${heroInfo.name}</h1>
+                                <p>${heroInfo.description}</p>
+                                <p>${JSON.stringify(heroInfo)}</p>
+                              `)
+        })
+        .catch(err => {
+            console.log(err.message)
+        })
+    }
+</script>
+</body>
+</html>
