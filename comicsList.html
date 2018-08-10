@@ -14,6 +14,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     </head>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -34,7 +35,9 @@
                     </li>
                 </ul>
             </div>
+
             <button type="button" class="btn btn-outline-dark my-2 my-sm-0 mr-sm-5" onclick="logout()">Logout</button>
+
         </div>
     </nav>
     <br>
@@ -47,6 +50,7 @@
                 <input  id="searchComicTitle" type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
                 <div class="input-group-append">
                     <button onclick="getComicsByName()" class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+
                 </div>
             </div>
         </div>
@@ -69,9 +73,11 @@
                 margin-left: auto;
                 margin-right: auto
             }
+
             .swal-button{
             background-color: darkslategrey !important
         }
+
         </style>
         <div id="list-comics" class="row" style="justify-content:center;"></div>
         <br>
@@ -113,6 +119,7 @@
                     alert(err.message)
                 })
         }
+
 
         function searchComicByName (cb) {
         let title = $('#searchComicTitle').val()
@@ -167,6 +174,7 @@
                                     <div class="card-body" style="margin:10px;padding:10px;">
                                         <img src=${listComics[i].thumbnail.path + '.' + listComics[i].thumbnail.extension} style="height: 250px; width: 250px">
                                         <h1 class="card-title" style="color:black; font-size:30px;">${listComics[i].title}</h1>
+
                                     </div>
                                 </div>
                             </div>
