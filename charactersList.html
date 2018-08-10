@@ -13,37 +13,75 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 </head>
 
-<body onload="getHeroes()">
-    <div id="list-heroes"class="row">
-        
+<body onload="showHeroes()">
+    <div class="container">
+        <div class="row">
+            <input type="text">
+            <button type="submit">search</button>
         </div>
-     </div>   
+        <div id="list-heroes"class="row"></div>
+        <div class="row">
+            <div class="col-12">
+                <button onclick="prevPage()"><span>prev</span></button>
+                <button onclick="nextPage()"><span>next</span></button>
+            </div>
+        </div>   
+    </div>
+
 <script>
-    function getHeroes() {
-        axios.get('http://gateway.marvel.com/v1/public/characters?apikey=1e229818860f7081c532e634d8f6ae65&ts=1504796200286&hash=e02be810b65957f4b60b71ca89b8835f')
-            .then(heroesData => {
-                console.log(heroesData.data.data.results)
+    var page = 0
+    var listHeroes = []
+    function getHeroes(cb) {
+        axios.get(`http://gateway.marvel.com/v1/public/characters?apikey=1e229818860f7081c532e634d8f6ae65&ts=1504796200286&hash=e02be810b65957f4b60b71ca89b8835f&offset=${page}&limit=20`)
+            .then((heroesData, showHeroes) => {
                 let heroes = heroesData.data.data.results
-                console.log(heroes)
-                for(let i=0; i < heroes.length; i++){
-                    $( "#list-heroes").append( `
-                    <div class="col-sm-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Special title treatment</h5>
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
-                    ` );    
-                }
-                
-                
+                listHeroes = heroes.map(x => x)
+                cb()
             })
             .catch(err => {
                 console.log(err.msg)
             })
+    }
+
+    // function getHeroesByName () {
+
+    // }
+
+    function showHeroes () {
+        getHeroes(function(){
+            $('#list-heroes').empty()
+            let showcase = listHeroes
+            console.log("==",showcase[0].id)
+            for(let i=0; i < listHeroes.length; i++){
+                        $( "#list-heroes").append( `
+                        <div class="col-sm-3" style="margin:10px;">
+                            <div class="card" style="background-image:url(${listHeroes[i].thumbnail.path+'.'+listHeroes[i].thumbnail.extension}); 
+                                                     background-size:cover;">
+                                <div class="card-body" style="margin:10px;padding:10px;">
+                                    <h1 class="card-title" style="color:white;">${listHeroes[i].name}</h1>
+                                    <h2> description : </h2>
+                                    <p class="card-text">${listHeroes[i].description}</p>
+                                    <a href="/detail.html?${listHeroes[i].id}" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                        ` );    
+                    }
+        })
+    }
+
+    function prevPage () {
+        if(page > 21 ){
+            page -= 20
+            showHeroes()
+            console.log(page)
+        }
+    }
+
+    function nextPage () {
+            page += 20
+            showHeroes()
+            console.log(page)
     }
 </script>
 </body>
