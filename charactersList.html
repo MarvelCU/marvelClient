@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Dashboard</title>
+    <title>Characters</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
@@ -18,7 +18,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <div class="collapse navbar-collapse" id="navbarNav">
-            <a class="navbar-brand">
+            <a class="navbar-brand" href="dashboard.html">
                 <img src="https://storage.googleapis.com/adrobucket/1533868894512marvel-logo.jpg" width="80px">
             </a>
 
@@ -129,7 +129,6 @@
 
 
         function getHeroesByName () {
-            console.log("waoiiii")
             searchHeroByName(function () {
                 $('#list-heroes').empty()
                 let showcase = listHeroes
