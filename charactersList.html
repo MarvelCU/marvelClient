@@ -4,29 +4,87 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Characters</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 </head>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <a class="navbar-brand">
+                <img src="https://storage.googleapis.com/adrobucket/1533868894512marvel-logo.jpg" width="80px">
+            </a>
+
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Heroes</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link active" href="#">Comics</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link disabled" href="#">Movies</a>
+                </li>
+            </ul>
+        </div>
+        <button type="button" class="btn btn-outline-dark my-2 my-sm-0 mr-sm-5">Logout</button>
+    </div>
+</nav>
+<br>
+<br>
+<br>
 
 <body onload="showHeroes()">
     <div class="container">
-        <div class="row">
-            <input type="text">
-            <button type="submit">search</button>
-        </div>
-        <div id="list-heroes"class="row"></div>
-        <div class="row">
-            <div class="col-12">
-                <button onclick="prevPage()"><span>prev</span></button>
-                <button onclick="nextPage()"><span>next</span></button>
+        <div class="input-group mb-2 justify-center">
+            <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
             </div>
-        </div>   
+        </div>
     </div>
+    <br>
+    <div class="container">
+            <div align="center">
+                    <button class="btn btn-secondary" onclick="prevPage()">
+                        <span>Prev</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="nextPage()">
+                        <span>Next</span>
+                    </button>
+    
+            </div>
+        </div>
+        <br>
+    <style>
+        .input-group {
+            width: 50% !important;
+            margin-left: auto;
+            margin-right: auto
+        }
+    </style>
+    <div id="list-heroes" class="row" style="justify-content:center;"></div>
+    <br>
+    <div class="container">
+        <div align="center">
+                <button class="btn btn-secondary" onclick="prevPage()">
+                    <span>Prev</span>
+                </button>
+                <button class="btn btn-secondary" onclick="nextPage()">
+                    <span>Next</span>
+                </button>
+
+        </div>
+    </div>
+    </div>
+
 
 <script>
     let token = localStorage.getItem('token')
@@ -48,47 +106,48 @@
             })
     }
 
-    // function getHeroesByName () {
 
-    // }
+        // function getHeroesByName () {
 
-    function showHeroes () {
-        getHeroes(function(){
-            $('#list-heroes').empty()
-            let showcase = listHeroes
-            console.log("==",showcase[0].id)
-            for(let i=0; i < listHeroes.length; i++){
-                        $( "#list-heroes").append( `
-                        <div class="col-sm-3" style="margin:10px;">
-                            <div class="card" style="background-image:url(${listHeroes[i].thumbnail.path+'.'+listHeroes[i].thumbnail.extension}); 
-                                                     background-size:cover;">
+        // }
+
+        function showHeroes() {
+            getHeroes(function () {
+                $('#list-heroes').empty()
+                let showcase = listHeroes
+                console.log("==", showcase[0].id)
+                for (let i = 0; i < listHeroes.length; i++) {
+                    $("#list-heroes").append(`
+                        <div class="col-sm-3" style="margin:2px;">
+                            <div class="card">
                                 <div class="card-body" style="margin:10px;padding:10px;">
-                                    <h1 class="card-title" style="color:white;">${listHeroes[i].name}</h1>
-                                    <h2> description : </h2>
-                                    <p class="card-text">${listHeroes[i].description}</p>
-                                    <a href="/detail.html?${listHeroes[i].id}" class="btn btn-primary">Go somewhere</a>
+                                    <img src=${listHeroes[i].thumbnail.path + '.' + listHeroes[i].thumbnail.extension} style="height: 250px; width: 250px">
+                                    <h1 class="card-title" style="color:black; font-size:30px;">${listHeroes[i].name}</h1>
+                                    <h2 style="color:gray; font-size:20px; font-weight:bold;">Description : </h2>
+                                    <p class="card-text" style="color:gray;">${listHeroes[i].description}</p>
+                                    <a href="/detail.html?${listHeroes[i].id}" class="btn btn-dark">More details</a>
                                 </div>
                             </div>
                         </div>
-                        ` );    
-                    }
-        })
-    }
+                        ` );
+                }
+            })
+        }
 
-    function prevPage () {
-        if(page > 21 ){
-            page -= 20
+        function prevPage() {
+            if (page > 22) {
+                page -= 21
+                showHeroes()
+                console.log(page)
+            }
+        }
+
+        function nextPage() {
+            page += 21
             showHeroes()
             console.log(page)
         }
-    }
-
-    function nextPage () {
-            page += 20
-            showHeroes()
-            console.log(page)
-    }
-</script>
+    </script>
 </body>
 
 </html>
