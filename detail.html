@@ -37,12 +37,42 @@
             let heroInfo = response.data.data.results[0]
             $('#hero').append(`
                                 <h1>${heroInfo.name}</h1>
-                                <p>${heroInfo.description}</p>
-                                <p>${JSON.stringify(heroInfo)}</p>
+                                <img src=${heroInfo.thumbnail.path + '.' + heroInfo.thumbnail.extension} style="height: 250px; width: 250px">
+                                
                               `)
+            //panggil wiki disini
+            getWiki(heroInfo.name)
         })
         .catch(err => {
             console.log(err.message)
+        })
+    }
+
+    function getWiki(name){
+        var nameUri = encodeURIComponent(name);
+        // var uri_dec = decodeURIComponent(name);
+        console.log("wiki",nameUri)
+        axios.get(`http://localhost:3000/wiki?name=${nameUri}`)
+        .then(infoWiki => {
+            console.log("from wiki",infoWiki.data[2])
+            infoWiki.data[2].forEach(element => {
+                $('#hero').append(`
+                                    <div>
+                                        <ul id="movieList">
+                                        </ul>
+                                    </div>
+                                    <p>${element}</p>
+                                `)
+                
+            });
+            infoWiki.data[1].forEach(element => {
+                $('#movieList').append(`
+                                        <li><a>${element}</a></li>
+                                    `)
+            })
+        })
+        .catch(err => {
+            console.log("weiiiii",err)
         })
     }
 </script>
