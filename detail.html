@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <title>Hero's details</title>
 </head>
 <body onload="getUrl()">
     <div id="hero" class="container"></div>
@@ -30,13 +30,13 @@
     }
 
     function heroInfo () {
-        console.log("acces url", url)
+        console.log("access url", url)
         axios.get(url)
         .then(response => {
             console.log(response.data.data.results)
             let heroInfo = response.data.data.results[0]
             $('#hero').append(`
-                                <h1>${heroInfo.name}</h1>
+                                <h1 style="font-family:sans-serif; font-weight:bold">${heroInfo.name}</h1>
                                 <img src=${heroInfo.thumbnail.path + '.' + heroInfo.thumbnail.extension} style="height: 250px; width: 250px">
                                 
                               `)
@@ -44,37 +44,37 @@
             getWiki(heroInfo.name)
         })
         .catch(err => {
-            console.log(err.message)
+            alert(err.message)
         })
     }
 
     function getWiki(name){
         var nameUri = encodeURIComponent(name);
         // var uri_dec = decodeURIComponent(name);
-        console.log("wiki",nameUri)
+        console.log("wiki", nameUri)
         axios.get(`http://localhost:3000/wiki?name=${nameUri}`)
         .then(infoWiki => {
-            console.log("from wiki",infoWiki.data)
+            console.log("from wiki", infoWiki.data[2])
             infoWiki.data[2].forEach(element => {
                 $('#hero').append(`
-                                    <div id="actors" class="row"></div>
-                                    <div class="row">
-                                        <ul id="movieList">
+                                    <div id="actors" class="row">
+                                        <ul id="relevance" style="font-family:sans-serif;">
                                         </ul>
                                     </div>
-                                    <p>${element}</p>
+                                    <p style="font-family:sans-serif;">${element}</p>
                                 `)
                 
             });
-            infoWiki.data[1].forEach((element, idx) => {
-                $('#movieList').append(`
-                                        <li>${element}</li>
+
+            infoWiki.data[1].forEach(element => {
+                $('#relevance').append(`
+                                        <li><a>${element}</a></li>
                                     `)
                 getMovie(element)
             })
         })
         .catch(err => {
-            console.log("weiiiii",err)
+            console.log("error",err)
         })
     }
 
@@ -120,5 +120,10 @@
         })
     }
 </script>
+<style>
+    .relevance {
+        font-family: Arial, Helvetica, sans-serif
+    }
+</style>
 </body>
 </html>
