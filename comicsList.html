@@ -13,6 +13,8 @@
             crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     </head>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -30,7 +32,11 @@
                     </li>
                 </ul>
             </div>
-            <button type="button" class="btn btn-outline-light my-2 my-sm-0 mr-sm-5">Logout</button>
+
+
+            <button type="button" class="btn btn-outline-light my-2 my-sm-0 mr-sm-5" onclick="logout()">Logout</button>
+
+
         </div>
     </nav>
     <br>
@@ -40,9 +46,10 @@
     <body onload="showComics()">
         <div class="container">
             <div class="input-group mb-2 justify-center">
-                <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <input  id="searchComicTitle" type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                    <button onclick="getComicsByName()" class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+
                 </div>
             </div>
         </div>
@@ -65,6 +72,11 @@
                 margin-left: auto;
                 margin-right: auto
             }
+
+            .swal-button{
+            background-color: darkslategrey !important
+        }
+
         </style>
         <div id="list-comics" class="row" style="justify-content:center;"></div>
         <br>
@@ -106,6 +118,48 @@
                     alert(err.message)
                 })
         }
+
+
+        function searchComicByName (cb) {
+        let title = $('#searchComicTitle').val()
+        console.log("from search function",title)
+        axios.get(`http://gateway.marvel.com/v1/public/comics?format=comic&formatType=comic&noVariants=false&title=${title}&apikey=1e229818860f7081c532e634d8f6ae65&ts=1504796200286&hash=e02be810b65957f4b60b71ca89b8835f&limit=20`)
+        .then((comicsData, showComics) => {
+            let comics = comicsData.data.data.results
+            listComics = comics.map(x => x)
+            console.log(comics)
+            if(comics.length === 0){
+                swal("Comic not found", "Name another to find");
+            } else {
+                cb()
+            }
+        })
+        .catch(err => {
+            console.log(err.message)
+        })
+    }
+
+
+        function getComicsByName () {
+            console.log("waoiiii")
+            searchComicByName(function () {
+                $('#list-comics').empty()
+                let showcase = listComics
+                console.log("==", showcase[0].id)
+                for (let i = 0; i < listComics.length; i++) {
+                    $("#list-comics").append(`
+                        <div class="col-sm-3" style="margin:2px;">
+                            <div class="card">
+                                <div class="card-body" style="margin:10px;padding:10px;">
+                                    <img src=${listComics[i].images[0].path + '.' + listComics[i].images[0].extension} style="height: 250px; width: 250px">
+                                    <h1 class="card-title" style="color:black; font-size:30px;">${listComics[i].title}</h1>
+                                </div>
+                            </div>
+                        </div>
+                        ` );
+                }
+            })
+        }
     
             function showComics() {
                 getComics(function () {
@@ -119,6 +173,7 @@
                                     <div class="card-body" style="margin:10px;padding:10px;">
                                         <img src=${listComics[i].thumbnail.path + '.' + listComics[i].thumbnail.extension} style="height: 250px; width: 250px">
                                         <h1 class="card-title" style="color:black; font-size:30px;">${listComics[i].title}</h1>
+
                                     </div>
                                 </div>
                             </div>
