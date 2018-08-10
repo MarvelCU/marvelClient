@@ -29,6 +29,11 @@
     </div>
 
 <script>
+    let token = localStorage.getItem('token')
+      if(!token){
+        window.location.href="index.html"
+      }
+      
     var page = 0
     var listHeroes = []
     function getHeroes(cb) {

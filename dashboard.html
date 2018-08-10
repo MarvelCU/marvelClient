@@ -24,23 +24,44 @@
                 </li>
               </ul>            
         </div>
-        <button type="button" class="btn btn-outline-dark my-2 my-sm-0 mr-sm-5">Logout</button>
+        <button type="button" class="btn btn-outline-dark my-2 my-sm-0 mr-sm-5" onclick="logout()">Logout</button>
       </div>
       </nav>
-      <br><br><br>
-      <div class="container">
-        <div class="input-group mb-2 justify-center">
-          <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
-          <div class="input-group-append">
-            <button class="btn btn-outline-info" type="button" id="button-addon2">Button</button>
-          </div>
-        </div>
+      <div class="jumbotron jumbotron bg-cover">
+          <div class="overlay"></div>
+          <div class="container">
+            <div class="input-group mb-2 justify-center">
+              <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-info" type="button" id="button-addon2">Button</button>
+              </div>
+            </div>
+          </div>  
       </div>
+      
+      <script>
+      let token = localStorage.getItem('token')
+      if(!token){
+        window.location.href="index.html"
+      }
+
+      function logout(){
+        localStorage.removeItem('token')
+        window.location.href="index.html"
+      }
+      </script>
       <style>
       .input-group{
         width: 50% !important;
+        margin-top: auto;
         margin-left: auto;
         margin-right: auto
+      }
+      .bg-cover{
+        background-image: url('./marvel.jpg')
+      }
+      .jumbotron{
+        height: 500px
       }
       </style>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

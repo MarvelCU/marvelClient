@@ -11,6 +11,11 @@
 <body onload="getUrl()">
     <div id="hero"></div>
 <script>
+    let token = localStorage.getItem('token')
+      if(!token){
+        window.location.href="index.html"
+      }
+      
     // https://gateway.marvel.com:443/v1/public/characters/1011334?apikey=20056a3699878d1b405c3dbe16a121ce
     let uri = window.location.href.split("?");
     let idHero = uri[1]
