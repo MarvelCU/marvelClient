@@ -9,7 +9,7 @@
     <title>Document</title>
 </head>
 <body onload="getUrl()">
-    <div id="hero"></div>
+    <div id="hero" class="container"></div>
 <script>
     let token = localStorage.getItem('token')
       if(!token){
@@ -54,10 +54,11 @@
         console.log("wiki",nameUri)
         axios.get(`http://localhost:3000/wiki?name=${nameUri}`)
         .then(infoWiki => {
-            console.log("from wiki",infoWiki.data[2])
+            console.log("from wiki",infoWiki.data)
             infoWiki.data[2].forEach(element => {
                 $('#hero').append(`
-                                    <div>
+                                    <div id="actors" class="row"></div>
+                                    <div class="row">
                                         <ul id="movieList">
                                         </ul>
                                     </div>
@@ -65,14 +66,57 @@
                                 `)
                 
             });
-            infoWiki.data[1].forEach(element => {
+            infoWiki.data[1].forEach((element, idx) => {
                 $('#movieList').append(`
-                                        <li><a>${element}</a></li>
+                                        <li>${element}</li>
                                     `)
+                getMovie(element)
             })
         })
         .catch(err => {
             console.log("weiiiii",err)
+        })
+    }
+
+    function getMovie(title){
+        console.log("woiiii", title)
+        var titleUri = encodeURIComponent(title);
+        var url = `https://api.themoviedb.org/3/search/movie?query=${titleUri}&api_key=292af0970d9da62ffa9b280cc9fa8e88`
+        console.log("from movie", titleUri)
+        axios.get(url)
+        .then(response => {
+            let result = response.data.results
+            result.forEach(element => {
+                getActors(element.id)
+            })
+
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    function getActors (id) {
+        console.log("from actors",id)
+        let url = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=292af0970d9da62ffa9b280cc9fa8e88`
+
+        axios.get(url)
+        .then(response => {
+            console.log("axios actors",response.data.cast[0].name)
+            console.log("axios actors",response)
+            $("#actors").append(`
+                        <div class="col-sm-3" style="margin:2px;">
+                            <div class="card">
+                                <div class="card-body" style="margin:10px;padding:10px;">
+                                    <img src="https://image.tmdb.org/t/p/w92/${response.data.cast[0].profile_path}" style="height: 100px; width: 100px">
+                                    <h1 class="card-title" style="color:black; font-size:30px;">${response.data.cast[0].name}</h1>
+                                </div>
+                            </div>
+                        </div>
+                        ` );
+        })
+        .catch(err => {
+            console.log(err)
         })
     }
 </script>
