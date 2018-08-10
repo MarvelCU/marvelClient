@@ -14,6 +14,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
@@ -24,17 +25,17 @@
 
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Heroes</a>
+                    <a class="nav-link" href="charactersList.html">Heroes</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link active" href="#">Comics</a>
+                    <a class="nav-link active" href="comicsList.html">Comics</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link disabled" href="#">Movies</a>
                 </li>
             </ul>
         </div>
-        <button type="button" class="btn btn-outline-dark my-2 my-sm-0 mr-sm-5">Logout</button>
+        <button type="button" class="btn btn-outline-light my-2 my-sm-0 mr-sm-5">Logout</button>
     </div>
 </nav>
 <br>
@@ -69,6 +70,9 @@
             margin-left: auto;
             margin-right: auto
         }
+        .swal-button{
+            background-color: darkslategrey !important
+        }
     </style>
     <div id="list-heroes" class="row" style="justify-content:center;"></div>
     <br>
@@ -91,6 +95,11 @@
       if(!token){
         window.location.href="index.html"
       }
+
+      function logout(){
+        localStorage.removeItem('token')
+        window.location.href="index.html"
+      }
       
     var page = 0
     var listHeroes = []
@@ -102,7 +111,7 @@
                 cb()
             })
             .catch(err => {
-                console.log(err.msg)
+                alert(err.message)
             })
     }
 
@@ -113,8 +122,11 @@
         .then((heroesData, showHeroes) => {
             let heroes = heroesData.data.data.results
             listHeroes = heroes.map(x => x)
-            console.log(heroes)
-            cb()
+            if(heroes.length === 0){
+                swal("Hero not found", "Name another hero to find");
+            } else {
+                cb()
+            }
         })
         .catch(err => {
             console.log(err.message)
